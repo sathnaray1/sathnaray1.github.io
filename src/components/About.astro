@@ -1,0 +1,162 @@
+---
+import { Image } from "astro:assets";
+import portrait from "../assets/sathya.jpg";
+import { about, profile } from "../data/content";
+---
+
+<section class="section about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-portrait reveal">
+      <div class="frame">
+        <Image
+          src={portrait}
+          alt="Sathya Narayanan"
+          widths={[420, 640, 840]}
+          sizes="(max-width: 860px) 80vw, 420px"
+          loading="lazy"
+          class="portrait-img"
+        />
+        <div class="frame-glow" aria-hidden="true"></div>
+      </div>
+      <p class="portrait-cap">{profile.name} · {profile.location}</p>
+    </div>
+
+    <div class="about-text">
+      <header class="sec-head reveal">
+        <p class="eyebrow" data-num="04">About</p>
+        <h2 class="section-title">The person behind the product.</h2>
+      </header>
+
+      {about.paragraphs.map((p, i) => (
+        <p class="about-p reveal" data-delay={i + 1}>{p}</p>
+      ))}
+
+      <ul class="facets reveal" data-delay="2" aria-label="What I do">
+        {about.facets.map((f) => (
+          <li>{f}</li>
+        ))}
+      </ul>
+
+      <div class="about-meta reveal" data-delay="3">
+        <div class="meta-block">
+          <h4 class="meta-h">Languages</h4>
+          <ul class="lang-list">
+            {about.languages.map((l) => (
+              <li><span class="lang">{l.lang}</span><span class="lvl">{l.level}</span></li>
+            ))}
+          </ul>
+        </div>
+        <div class="meta-block">
+          <h4 class="meta-h">Credentials</h4>
+          <p class="meta-line">{about.cert}</p>
+          <p class="meta-line dim">{about.education}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .about-portrait { position: sticky; top: 6rem; }
+  .frame {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+  }
+  .portrait-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: saturate(1.04) contrast(1.02);
+  }
+  .frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(12,11,10,0.5));
+    pointer-events: none;
+  }
+  .frame-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: var(--radius);
+    box-shadow: 0 30px 80px -30px rgba(233,161,75,0.4);
+    pointer-events: none;
+  }
+  .portrait-cap {
+    margin-top: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .about-p {
+    margin-top: 1.3rem;
+    color: var(--text-dim);
+    font-size: var(--step-1);
+    line-height: 1.55;
+    max-width: 56ch;
+  }
+  .about-p:first-of-type { margin-top: 2rem; }
+
+  .facets {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .facets li {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.02em;
+    padding: 0.45rem 0.95rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--text-dim);
+    transition: border-color 0.3s var(--ease), color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .facets li:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    background: rgba(233,161,75,0.07);
+  }
+
+  .about-meta {
+    margin-top: 2.6rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .meta-h {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .lang-list { list-style: none; padding: 0; margin-top: 0.9rem; display: grid; gap: 0.55rem; }
+  .lang-list li { display: flex; justify-content: space-between; gap: 1rem; font-size: var(--step-0); }
+  .lang { color: var(--text); }
+  .lvl { color: var(--muted); font-size: var(--step--1); }
+  .meta-line { margin-top: 0.9rem; color: var(--text-dim); font-size: var(--step-0); line-height: 1.45; }
+  .meta-line.dim { color: var(--muted); font-size: var(--step--1); }
+
+  @media (max-width: 860px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-portrait { position: static; max-width: 360px; }
+    .about-meta { grid-template-columns: 1fr; gap: 1.6rem; }
+  }
+</style>

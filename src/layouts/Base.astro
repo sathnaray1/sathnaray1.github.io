@@ -1,0 +1,164 @@
+---
+import "../styles/global.css";
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Sathya Narayanan — Product Leader · Experimentation, Analytics & AI",
+  description = "Sathya Narayanan is a senior product leader building 0→1 and scaling products to $150M+ ARR across experimentation, analytics, and AI. Senior Director of Product at Optimizely.",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL("/og.png", Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Sathya Narayanan" />
+    <meta name="theme-color" content="#0C0B0A" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Sathya Narayanan" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts: Fraunces (display serif) · Hanken Grotesk (body) · JetBrains Mono (accents) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="cursor" aria-hidden="true"></div>
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <slot />
+
+    <style>
+      /* Scroll progress bar (ember) */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        background: var(--ember);
+        z-index: 9999;
+        box-shadow: 0 0 12px rgba(233, 161, 75, 0.6);
+      }
+      /* Custom cursor (accent ring) — desktop pointers only */
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(233, 161, 75, 0.7);
+        border-radius: 50%;
+        translate: -50% -50%;
+        pointer-events: none;
+        z-index: 9999;
+        transition: width 0.25s var(--ease), height 0.25s var(--ease),
+          background 0.25s var(--ease), border-color 0.25s var(--ease);
+        mix-blend-mode: screen;
+        opacity: 0;
+      }
+      .cursor.is-active { opacity: 1; }
+      .cursor.is-hover {
+        width: 56px;
+        height: 56px;
+        background: rgba(233, 161, 75, 0.12);
+        border-color: rgba(246, 199, 122, 0.9);
+      }
+      @media (hover: none), (pointer: coarse) {
+        .cursor { display: none; }
+      }
+    </style>
+
+    <script>
+      // ---- Scroll progress ----
+      const bar = document.querySelector<HTMLElement>(".scroll-progress");
+      const onScroll = () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - h.clientHeight;
+        const p = max > 0 ? h.scrollTop / max : 0;
+        if (bar) bar.style.transform = `scaleX(${p})`;
+      };
+      document.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // ---- Reveal on scroll ----
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reveals = document.querySelectorAll(".reveal");
+      if (reduce) {
+        reveals.forEach((el) => el.classList.add("is-in"));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+        );
+        reveals.forEach((el) => io.observe(el));
+      }
+
+      // ---- Custom cursor ----
+      const cursor = document.querySelector<HTMLElement>(".cursor");
+      if (cursor && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        let x = 0, y = 0, cx = 0, cy = 0;
+        window.addEventListener("mousemove", (e) => {
+          x = e.clientX; y = e.clientY;
+          cursor.classList.add("is-active");
+        });
+        const loop = () => {
+          cx += (x - cx) * 0.18;
+          cy += (y - cy) * 0.18;
+          cursor.style.left = cx + "px";
+          cursor.style.top = cy + "px";
+          requestAnimationFrame(loop);
+        };
+        loop();
+        const hoverables = document.querySelectorAll(
+          "a, button, [data-cursor-hover]"
+        );
+        hoverables.forEach((el) => {
+          el.addEventListener("mouseenter", () => cursor.classList.add("is-hover"));
+          el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
+        });
+      }
+    </script>
+  </body>
+</html>

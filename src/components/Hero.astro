@@ -1,0 +1,272 @@
+---
+import { profile } from "../data/content";
+---
+
+<section class="hero" id="top">
+  <!-- Animated ember atmosphere -->
+  <div class="orbs" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+  <div class="watermark" aria-hidden="true">SN</div>
+
+  <div class="wrap hero-inner">
+    <p class="eyebrow hero-eyebrow">
+      <span class="dot"></span>Experimentation · Analytics · AI
+    </p>
+
+    <h1 class="hero-title">
+      <span class="line">I build products</span>
+      <span class="line">that go <span class="em">0&#8202;→&#8202;1</span></span>
+      <span class="line">&mdash; and scale to <span class="em">$150M+</span>.</span>
+    </h1>
+
+    <p class="hero-lead">
+      Senior Director of Product at Optimizely. Nine years shipping AI,
+      analytics &amp; experimentation that teams love and businesses count on.
+    </p>
+
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#experience">
+        View the work
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
+
+    <div class="hero-meta">
+      <span class="status"><span class="pulse"></span> Open to what&rsquo;s next</span>
+      <span class="sep">/</span>
+      <span>{profile.location}</span>
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#stats" aria-label="Scroll down">
+    <span>Scroll</span>
+    <span class="cue-line"></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 6rem;
+  }
+  .hero-inner { position: relative; z-index: 2; flex: 1 1 auto; min-width: 0; }
+
+  /* — Ember orbs — */
+  .orbs { position: absolute; inset: 0; z-index: 0; filter: blur(60px); }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+  .orb-1 {
+    width: 46vw; height: 46vw;
+    top: -12%; right: -6%;
+    background: radial-gradient(circle, rgba(246,199,122,0.55), transparent 62%);
+    animation: drift1 18s var(--ease) infinite alternate;
+  }
+  .orb-2 {
+    width: 38vw; height: 38vw;
+    bottom: -16%; left: -8%;
+    background: radial-gradient(circle, rgba(217,118,60,0.5), transparent 60%);
+    animation: drift2 22s var(--ease) infinite alternate;
+  }
+  .orb-3 {
+    width: 26vw; height: 26vw;
+    top: 38%; left: 42%;
+    background: radial-gradient(circle, rgba(233,161,75,0.35), transparent 60%);
+    animation: drift3 26s var(--ease) infinite alternate;
+  }
+  @keyframes drift1 { to { transform: translate(-8%, 10%) scale(1.12); } }
+  @keyframes drift2 { to { transform: translate(10%, -8%) scale(1.08); } }
+  @keyframes drift3 { to { transform: translate(-12%, -10%) scale(0.9); } }
+
+  /* — Giant faint watermark — */
+  .watermark {
+    position: absolute;
+    right: -2vw;
+    bottom: -14vh;
+    font-family: var(--font-display);
+    font-weight: 350;
+    font-size: 52vw;
+    line-height: 0.8;
+    color: rgba(244, 237, 226, 0.025);
+    z-index: 1;
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  /* — Eyebrow — */
+  .hero-eyebrow { opacity: 0; animation: fadeUp 0.8s var(--ease-out) 0.1s forwards; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  /* — Title — */
+  .hero-title {
+    font-size: var(--step-5);
+    font-weight: 360;
+    line-height: 1.05;
+    margin-top: 1.4rem;
+    max-width: 17ch;
+    letter-spacing: -0.03em;
+    overflow-wrap: break-word;
+  }
+  .hero-title .line {
+    display: block;
+    opacity: 0;
+    transform: translateY(0.42em);
+    animation: lineUp 0.9s var(--ease-out) forwards;
+  }
+  .hero-title .em {
+    font-style: italic;
+    font-weight: 340;
+    background: var(--ember);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* stagger per line */
+  .line:nth-child(1) { animation-delay: 0.24s; }
+  .line:nth-child(2) { animation-delay: 0.38s; }
+  .line:nth-child(3) { animation-delay: 0.52s; }
+
+  .hero-lead {
+    margin-top: 1.8rem;
+    max-width: 52ch;
+    color: var(--text-dim);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--ease-out) 0.7s forwards;
+  }
+
+  /* — Actions — */
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2.4rem;
+    opacity: 0;
+    animation: fadeUp 0.9s var(--ease-out) 0.85s forwards;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: var(--step-0);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+      background 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .btn svg { transition: transform 0.3s var(--ease); }
+  .btn-primary {
+    background: var(--ember);
+    color: #1a1206;
+    box-shadow: 0 8px 30px -8px rgba(233, 161, 75, 0.5);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -8px rgba(233, 161, 75, 0.6); }
+  .btn-primary:hover svg { transform: translateX(4px); }
+  .btn-ghost {
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+  }
+  .btn-ghost:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  /* — Meta — */
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.9s var(--ease-out) 1s forwards;
+  }
+  .status { display: inline-flex; align-items: center; gap: 0.55rem; color: var(--text-dim); }
+  .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #7bdc8c;
+    box-shadow: 0 0 0 0 rgba(123, 220, 140, 0.7);
+    animation: pulse 2.2s infinite;
+  }
+  .sep { color: var(--faint); }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(123,220,140,0.55); }
+    70% { box-shadow: 0 0 0 9px rgba(123,220,140,0); }
+    100% { box-shadow: 0 0 0 0 rgba(123,220,140,0); }
+  }
+
+  /* — Scroll cue — */
+  .scroll-cue {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.9s var(--ease-out) 1.2s forwards;
+  }
+  .cue-line {
+    width: 1px; height: 42px;
+    background: linear-gradient(var(--accent), transparent);
+    position: relative;
+    overflow: hidden;
+  }
+  .cue-line::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: var(--accent);
+    animation: cue 1.8s var(--ease) infinite;
+  }
+  @keyframes cue {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes lineUp { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb { animation: none; }
+    .hero-title .line { opacity: 1; transform: none; animation: none; }
+    .hero-eyebrow, .hero-lead, .hero-actions, .hero-meta, .scroll-cue { opacity: 1; animation: none; }
+    .cue-line::after, .pulse { animation: none; }
+  }
+
+  @media (max-width: 640px) {
+    .hero-title {
+      font-size: clamp(2.4rem, 8.4vw, 3.3rem);
+      max-width: 100%;
+      letter-spacing: -0.02em;
+    }
+    .hero-eyebrow { flex-wrap: wrap; letter-spacing: 0.16em; font-size: 0.68rem; }
+    .hero-lead { font-size: var(--step-0); }
+    .watermark { font-size: 84vw; bottom: -3vh; }
+  }
+</style>

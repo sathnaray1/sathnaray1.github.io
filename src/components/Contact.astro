@@ -1,0 +1,144 @@
+---
+import { profile } from "../data/content";
+const year = new Date().getFullYear();
+---
+
+<section class="section contact" id="contact">
+  <div class="contact-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow reveal" data-num="06">Contact</p>
+    <h2 class="contact-title reveal">
+      Let&rsquo;s build<br /><span class="accent-text">what&rsquo;s next.</span>
+    </h2>
+    <p class="contact-lead reveal" data-delay="1">
+      Open to senior product leadership roles. If you&rsquo;re working on something
+      ambitious in AI, analytics, or experimentation — I&rsquo;d love to talk.
+    </p>
+
+    <div class="contact-actions reveal" data-delay="2">
+      <a class="contact-email" href={`mailto:${profile.email}`} data-cursor-hover>
+        {profile.email}
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="contact-li" href={profile.linkedin} target="_blank" rel="noopener noreferrer" data-cursor-hover>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C21.4 8.65 22 11.3 22 14.4V21h-4v-5.8c0-1.38-.02-3.16-1.93-3.16-1.93 0-2.22 1.5-2.22 3.06V21h-4z"/>
+        </svg>
+        LinkedIn
+      </a>
+    </div>
+
+    <p class="resume-note reveal" data-delay="3">Detailed résumé available on request.</p>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <span class="foot-brand"><span class="foot-mark">SN</span> {profile.name}</span>
+      <span class="foot-meta">&copy; {year} · Built with care &amp; Astro</span>
+      <a class="foot-top" href="#top" data-cursor-hover>Back to top ↑</a>
+    </div>
+  </footer>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+    text-align: center;
+    padding-block: clamp(6rem, 14vh, 11rem) 0;
+    overflow: hidden;
+  }
+  .contact-glow {
+    position: absolute;
+    bottom: 10%; left: 50%;
+    width: 80vw; height: 50vh;
+    translate: -50% 0;
+    background: radial-gradient(circle, rgba(233,161,75,0.16), transparent 62%);
+    filter: blur(50px);
+    pointer-events: none;
+  }
+  .contact .eyebrow { justify-content: center; }
+  .contact-title {
+    font-size: var(--step-4);
+    font-weight: 350;
+    line-height: 1.0;
+    margin-top: 1.4rem;
+    letter-spacing: -0.03em;
+  }
+  .contact-lead {
+    margin: 1.8rem auto 0;
+    max-width: 48ch;
+    color: var(--text-dim);
+    font-size: var(--step-1);
+  }
+  .contact-actions {
+    margin-top: 2.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+  }
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1rem + 2.4vw, 3rem);
+    font-weight: 360;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 0.3rem;
+    transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .contact-email svg { transition: transform 0.3s var(--ease); }
+  .contact-email:hover { color: var(--accent-hi); border-color: var(--accent); }
+  .contact-email:hover svg { transform: translateX(5px); }
+  .contact-li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    transition: color 0.3s var(--ease);
+  }
+  .contact-li:hover { color: var(--accent); }
+  .resume-note {
+    margin-top: 2rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .footer {
+    margin-top: clamp(5rem, 12vh, 9rem);
+    border-top: 1px solid var(--line);
+    padding-block: 1.6rem;
+  }
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+  .foot-brand { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--text-dim); }
+  .foot-mark {
+    display: grid; place-items: center;
+    width: 24px; height: 24px; border-radius: 6px;
+    background: var(--ember); color: #1a1206;
+    font-size: 0.7rem; font-weight: 500;
+  }
+  .foot-top { transition: color 0.3s var(--ease); }
+  .foot-top:hover { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .footer-row { justify-content: center; text-align: center; }
+  }
+</style>

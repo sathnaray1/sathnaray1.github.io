@@ -1,0 +1,119 @@
+---
+import { nav, profile } from "../data/content";
+---
+
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Sathya Narayanan — home">
+    <span class="mark">SN</span>
+    <span class="brand-name">Sathya Narayanan</span>
+  </a>
+  <nav class="links" aria-label="Primary">
+    {nav.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+    <a class="cta" href={`mailto:${profile.email}`}>Get in touch</a>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.05rem var(--gutter);
+    backdrop-filter: blur(0px);
+    transition: background 0.4s var(--ease), backdrop-filter 0.4s var(--ease),
+      border-color 0.4s var(--ease), padding 0.4s var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  .nav.is-scrolled {
+    background: rgba(12, 11, 10, 0.72);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom-color: var(--line);
+    padding-block: 0.7rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--ember);
+    color: #1a1206;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+    box-shadow: 0 0 18px rgba(233, 161, 75, 0.35);
+  }
+  .brand-name { color: var(--text-dim); }
+  .links {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.1rem);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.02em;
+  }
+  .links a:not(.cta) {
+    color: var(--text-dim);
+    position: relative;
+    padding-block: 0.2rem;
+    transition: color 0.3s var(--ease);
+  }
+  .links a:not(.cta)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 0;
+    background: var(--accent);
+    transition: width 0.35s var(--ease);
+  }
+  .links a:not(.cta):hover { color: var(--text); }
+  .links a:not(.cta):hover::after { width: 100%; }
+  .cta {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--text);
+    transition: border-color 0.3s var(--ease), background 0.3s var(--ease),
+      color 0.3s var(--ease);
+  }
+  .cta:hover {
+    border-color: transparent;
+    background: var(--ember);
+    color: #1a1206;
+  }
+  @media (max-width: 720px) {
+    .brand-name { display: none; }
+    .links a:not(.cta):not(.keep) { display: none; }
+    /* keep only Work / Writing collapsed away; show CTA */
+  }
+  @media (max-width: 560px) {
+    .links { gap: 0.9rem; }
+  }
+</style>
+
+<script>
+  const navEl = document.querySelector(".nav");
+  const toggle = () => {
+    if (!navEl) return;
+    navEl.classList.toggle("is-scrolled", window.scrollY > 24);
+  };
+  document.addEventListener("scroll", toggle, { passive: true });
+  toggle();
+</script>

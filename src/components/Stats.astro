@@ -1,0 +1,113 @@
+---
+import { stats } from "../data/content";
+---
+
+<section class="stats section" id="stats">
+  <div class="wrap">
+    <ul class="stat-grid">
+      {stats.map((s, i) => (
+        <li class="stat reveal" data-delay={(i % 3) + 1}>
+          <span
+            class="stat-num"
+            data-value={s.value}
+            data-prefix={s.prefix}
+            data-suffix={s.suffix}
+            data-decimals={s.decimals ?? 0}
+          >{s.prefix}0{s.suffix}</span>
+          <span class="stat-label">{s.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stats {
+    padding-block: clamp(3.5rem, 8vh, 6rem);
+    border-block: 1px solid var(--line);
+  }
+  .stat-grid {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.6rem, 4vw, 3.2rem) clamp(1.6rem, 4vw, 4rem);
+  }
+  .stat { position: relative; padding-left: 1.2rem; }
+  .stat::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.35rem;
+    width: 2px; height: calc(100% - 0.5rem);
+    background: var(--ember);
+    opacity: 0.55;
+  }
+  .stat-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 1.6rem + 3vw, 4rem);
+    font-weight: 360;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+  }
+  .stat-label {
+    display: block;
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: var(--step--1);
+    line-height: 1.45;
+    max-width: 22ch;
+  }
+  @media (max-width: 720px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 430px) {
+    .stat-grid { grid-template-columns: 1fr 1fr; gap: 1.8rem 1.4rem; }
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const fmt = (n: number, decimals: number) =>
+    n.toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+
+  const run = (el: HTMLElement) => {
+    const target = parseFloat(el.dataset.value || "0");
+    const prefix = el.dataset.prefix || "";
+    const suffix = el.dataset.suffix || "";
+    const decimals = parseInt(el.dataset.decimals || "0", 10);
+
+    if (reduce) {
+      el.textContent = `${prefix}${fmt(target, decimals)}${suffix}`;
+      return;
+    }
+    const dur = 1500;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      el.textContent = `${prefix}${fmt(target * eased, decimals)}${suffix}`;
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          run(e.target as HTMLElement);
+          io.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.6 }
+  );
+  document.querySelectorAll<HTMLElement>(".stat-num").forEach((el) => io.observe(el));
+</script>
