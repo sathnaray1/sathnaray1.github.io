@@ -168,7 +168,14 @@ export const about = {
   education: "B.S. Industrial & Operations Engineering, University of Michigan — Summa Cum Laude (in 2.5 years)",
 };
 
-/* — Volunteering (provided) — */
+/* — Giving back / volunteering — */
+export const givingBack = {
+  intro:
+    "A passionate advocate for education — I love teaching, coaching, and mentoring in my spare time as a way to give back to the community.",
+  photo: "peru.jpg",
+  caption: "Mis chicos y chicas · Peru",
+};
+
 export const volunteering = [
   {
     role: "Board Member · Career Chair",
@@ -190,7 +197,6 @@ export const volunteering = [
     period: "2017 · 2 mos",
     blurb:
       "Taught English abroad in Peru — mis chicos y chicas, from 2nd graders to working professionals.",
-    img: "peru.jpg",
   },
 ];
 
@@ -199,15 +205,20 @@ export const volunteering = [
 export const travel = {
   intro:
     "A frequent traveler — happiest with a boarding pass and somewhere new to understand.",
+  countries: 60,
   gallery: [
-    { file: "banff.jpg", caption: "Canadian Rockies", confirmed: true },
-    { file: "seville.jpg", caption: "Seville, Spain", confirmed: true },
-    { file: "antelope.jpg", caption: "Antelope Canyon, Arizona", confirmed: true },
-    { file: "clouds.jpg", caption: "Above the clouds", confirmed: false },
-    { file: "dunes.jpg", caption: "Golden hour in the dunes", confirmed: false },
-    { file: "elephant.jpg", caption: "Made a friend", confirmed: false },
-    { file: "moongate.jpg", caption: "Through the moon gate", confirmed: false },
-    { file: "waterfall.jpg", caption: "Chasing waterfalls", confirmed: false },
+    { file: "banff.jpg", caption: "Still waters", place: "Moraine Lake, Canada" },
+    { file: "seville.jpg", caption: "Plaza de España", place: "Seville, Spain" },
+    { file: "antelope.jpg", caption: "Light & stone", place: "Antelope Canyon, Arizona" },
+    { file: "clouds.jpg", caption: "Above the clouds", place: "Haleakalā, Maui" },
+    { file: "dunes.jpg", caption: "Golden hour in the dunes", place: "Sahara Desert, Morocco" },
+    { file: "horseshoe.jpg", caption: "The big bend", place: "Horseshoe Bend, Arizona" },
+    { file: "moongate.jpg", caption: "Through the moon gate", place: "Costa Rica" },
+    { file: "sunset.jpg", caption: "Last light", place: "" },
+    { file: "elephant.jpg", caption: "Made a friend", place: "Chiang Mai, Thailand" },
+    { file: "waterfall.jpg", caption: "Chasing waterfalls", place: "Ouzoud Falls, Morocco" },
+    { file: "beach.jpg", caption: "Barefoot", place: "" },
+    { file: "coast.jpg", caption: "Edge of the map", place: "" },
   ],
 };
 
