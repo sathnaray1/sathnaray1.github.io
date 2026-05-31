@@ -22,23 +22,22 @@ const img = (file: string) => imgs[`../assets/travel/${file}`]?.default;
     <div class="block">
       <h3 class="block-h reveal">Giving back</h3>
       <p class="block-intro reveal">{givingBack.intro}</p>
-      <div class="give-grid">
-        {img(givingBack.photo) && (
-          <figure class="give-photo reveal" data-cursor-hover>
-            <Image src={img(givingBack.photo)!} alt={givingBack.caption} widths={[420, 760]} sizes="(max-width:860px) 90vw, 420px" loading="lazy" />
-            <figcaption>{givingBack.caption}</figcaption>
-          </figure>
-        )}
-        <ol class="give-list">
-          {volunteering.map((v, i) => (
-            <li class="give-item reveal" data-delay={(i % 3) + 1}>
+      <div class="vol-grid">
+        {volunteering.map((v, i) => (
+          <article class={`vol reveal ${v.img ? "has-img" : ""}`} data-delay={(i % 3) + 1} data-cursor-hover>
+            {v.img && img(v.img) && (
+              <div class="vol-photo">
+                <Image src={img(v.img)!} alt={v.org} widths={[360, 560, 720]} sizes="(max-width:860px) 90vw, 360px" loading="lazy" />
+              </div>
+            )}
+            <div class="vol-text">
               <p class="vol-period">{v.period}</p>
               <h4 class="vol-role">{v.role}</h4>
               <p class="vol-org">{v.org}</p>
               <p class="vol-blurb">{v.blurb}</p>
-            </li>
-          ))}
-        </ol>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
 
@@ -99,48 +98,28 @@ const img = (file: string) => imgs[`../assets/travel/${file}`]?.default;
   }
   .block-intro { color: var(--text-dim); max-width: 54ch; margin-bottom: 1.8rem; font-size: var(--step-1); }
 
-  /* — Giving back: feature photo + roles list — */
-  .give-grid {
+  /* — Giving back: cards (photo on Peru card) — */
+  .vol-grid {
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: clamp(1.6rem, 4vw, 3.2rem);
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 2vw, 1.4rem);
     align-items: start;
   }
-  .give-photo {
-    position: relative;
-    margin: 0;
+  .vol {
+    border: 1px solid var(--line);
     border-radius: var(--radius);
+    background: linear-gradient(160deg, rgba(30,26,19,0.5), rgba(18,15,11,0.3));
+    transition: border-color 0.4s var(--ease), transform 0.4s var(--ease);
     overflow: hidden;
-    border: 1px solid var(--line-strong);
-    position: sticky;
-    top: 6rem;
   }
-  .give-photo :global(img) {
-    width: 100%; height: auto; display: block;
-    transition: transform 0.7s var(--ease);
+  .vol:hover { border-color: var(--line-strong); transform: translateY(-4px); }
+  .vol-text { padding: clamp(1.3rem, 2.5vw, 1.8rem); }
+  .vol-photo { aspect-ratio: 4 / 3; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .vol-photo :global(img) {
+    width: 100%; height: 100%; object-fit: cover; object-position: center 28%;
+    transition: transform 0.6s var(--ease);
   }
-  .give-photo::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 52%, rgba(8,7,6,0.8));
-    pointer-events: none;
-  }
-  .give-photo figcaption {
-    position: absolute;
-    left: 1.1rem; bottom: 0.9rem;
-    z-index: 2;
-    font-family: var(--font-mono);
-    font-size: var(--step--1);
-    color: var(--text);
-  }
-  .give-photo:hover :global(img) { transform: scale(1.04); }
-
-  .give-list { list-style: none; padding: 0; margin: 0; }
-  .give-item {
-    padding-block: clamp(1.3rem, 3vh, 1.9rem);
-    border-top: 1px solid var(--line);
-  }
-  .give-item:first-child { padding-top: 0; border-top: none; }
+  .vol.has-img:hover .vol-photo :global(img) { transform: scale(1.05); }
   .vol-period {
     font-family: var(--font-mono);
     font-size: 0.72rem;
@@ -252,8 +231,8 @@ const img = (file: string) => imgs[`../assets/travel/${file}`]?.default;
   .passion-b { margin-top: 0.6rem; color: var(--text-dim); font-size: var(--step-0); line-height: 1.5; }
 
   @media (max-width: 860px) {
-    .give-grid { grid-template-columns: 1fr; }
-    .give-photo { position: static; max-width: 440px; }
+    .vol-grid { grid-template-columns: 1fr; }
+    .vol.has-img .vol-photo { aspect-ratio: 16 / 9; }
     .gallery { columns: 2; }
     .passion-grid { grid-template-columns: repeat(2, 1fr); }
   }

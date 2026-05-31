@@ -197,6 +197,7 @@ export const volunteering = [
     period: "2017 · 2 mos",
     blurb:
       "Taught English abroad in Peru — mis chicos y chicas, from 2nd graders to working professionals.",
+    img: "peru.jpg",
   },
 ];
 
@@ -214,11 +215,11 @@ export const travel = {
     { file: "dunes.jpg", caption: "Golden hour in the dunes", place: "Sahara Desert, Morocco" },
     { file: "horseshoe.jpg", caption: "The big bend", place: "Horseshoe Bend, Arizona" },
     { file: "moongate.jpg", caption: "Through the moon gate", place: "Costa Rica" },
-    { file: "sunset.jpg", caption: "Last light", place: "" },
+    { file: "sunset.jpg", caption: "Last light", place: "Kīkaua Point, Kona, Hawaii" },
     { file: "elephant.jpg", caption: "Made a friend", place: "Chiang Mai, Thailand" },
     { file: "waterfall.jpg", caption: "Chasing waterfalls", place: "Ouzoud Falls, Morocco" },
-    { file: "beach.jpg", caption: "Barefoot", place: "" },
-    { file: "coast.jpg", caption: "Edge of the map", place: "" },
+    { file: "beach.jpg", caption: "Barefoot", place: "Kīkaua Point, Kona, Hawaii" },
+    { file: "coast.jpg", caption: "Edge of the map", place: "Izu Peninsula, Japan" },
   ],
 };
 
@@ -229,6 +230,6 @@ export const passions = {
     { title: "Trilingual", body: "English, Tamil, and a working hand at German." },
     { title: "Coach & teacher", body: "Certified 200+ OKR coaches; taught English in Peru; mentors PMs." },
     { title: "Maker", body: "Builds AI prototypes and code for the joy of it, not just the roadmap." },
-    { title: "Your passion", body: "EDIT — a hobby or interest you'd like to feature." },
+    { title: "Always moving", body: "Tennis, swimming, and basketball — a competitive streak that never clocks out." },
   ],
 };
