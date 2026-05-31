@@ -6,7 +6,7 @@ const withPhotos = visited.filter((c) => c.photo);
 <div class="globe-block reveal">
   <div class="globe-stage" id="globe-stage" data-cursor-hover>
     <div id="globe-canvas" class="globe-canvas"></div>
-    <p class="globe-hint"><span class="g-dot"></span>Drag to spin · hover a pin</p>
+    <p class="globe-hint"><span class="g-dot"></span><span class="g-hint-text">Drag to spin · hover a pin</span></p>
   </div>
   <noscript><p class="globe-fallback-note">Enable JavaScript to explore the interactive globe.</p></noscript>
   <ul class="globe-fallback" id="globe-fallback" hidden>
@@ -36,6 +36,12 @@ const withPhotos = visited.filter((c) => c.photo);
     color: var(--muted); pointer-events: none;
   }
   .g-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 10px rgba(233,161,75,0.7); }
+
+  /* Mobile: smaller stage + leave room to scroll past it */
+  @media (max-width: 640px) {
+    .globe-stage { height: clamp(300px, 52vh, 420px); }
+    .globe-hint { font-size: 0.66rem; }
+  }
 
   .globe-fallback { list-style: none; padding: 1rem 0 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .globe-fallback li { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-dim); padding: 0.4rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; }
@@ -117,15 +123,24 @@ const withPhotos = visited.filter((c) => c.photo);
         // warm-tint the globe surface
         try { world.globeMaterial().color.set("#2a251d"); } catch {}
 
+        const coarse = window.matchMedia("(pointer: coarse)").matches;
         const controls = world.controls();
-        controls.enableZoom = false;
+        controls.enableZoom = false; // no pinch/scroll-zoom hijack
+        controls.enablePan = false;
         controls.autoRotate = !reduce;
         controls.autoRotateSpeed = 0.5;
-        world.pointOfView({ lat: 20, lng: 10, altitude: 2.3 });
+        world.pointOfView({ lat: 20, lng: 10, altitude: coarse ? 2.7 : 2.3 });
 
-        // pause auto-rotate while interacting / hovering a pin
-        stage.addEventListener("pointerdown", () => (controls.autoRotate = false));
-        world.onPointHover((p: any) => { controls.autoRotate = !reduce && !p; });
+        if (coarse) {
+          // Touch: keep it a self-spinning showpiece; don't trap page scroll.
+          controls.enableRotate = false;
+          const hint = document.querySelector(".g-hint-text");
+          if (hint) hint.textContent = "50+ countries · auto-orbiting";
+        } else {
+          // Desktop: full drag-to-spin; pause auto-rotate while interacting/hovering.
+          stage.addEventListener("pointerdown", () => (controls.autoRotate = false));
+          world.onPointHover((p: any) => { controls.autoRotate = !reduce && !p; });
+        }
       } catch (e) {
         console.error("[globe] init failed:", e);
         showFallback();
