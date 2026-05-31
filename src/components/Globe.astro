@@ -87,7 +87,7 @@ const withPhotos = visited.filter((c) => c.photo);
         const { default: Globe } = await import("globe.gl");
         const withPhotos = visited.filter((c) => c.photo);
 
-        const world = (Globe as any)()(stage)
+        const world = new (Globe as any)(stage)
           .backgroundColor("rgba(0,0,0,0)")
           .globeImageUrl("//unpkg.com/three-globe/example/img/earth-dark.jpg")
           .showAtmosphere(true)
@@ -104,11 +104,11 @@ const withPhotos = visited.filter((c) => c.photo);
               ? `<div class="g-tip"><img src="${d.photo}" alt=""/><div class="g-tip-body"><span class="g-country">${d.country}</span><span class="g-cap">${d.caption || ""}</span></div></div>`
               : `<div class="g-tip no-photo"><div class="g-tip-body"><span class="g-country">${d.country}</span></div></div>`
           )
-          .ringsData(withPhotos)
+          .ringsData(reduce ? [] : withPhotos)
           .ringColor(() => "#E9A14B")
           .ringMaxRadius(2.6)
           .ringPropagationSpeed(1.1)
-          .ringRepeatPeriod(reduce ? 0 : 1500);
+          .ringRepeatPeriod(1500);
 
         const size = () => world.width(stage.clientWidth).height(stage.clientHeight);
         size();
@@ -127,6 +127,7 @@ const withPhotos = visited.filter((c) => c.photo);
         stage.addEventListener("pointerdown", () => (controls.autoRotate = false));
         world.onPointHover((p: any) => { controls.autoRotate = !reduce && !p; });
       } catch (e) {
+        console.error("[globe] init failed:", e);
         showFallback();
       }
     };
