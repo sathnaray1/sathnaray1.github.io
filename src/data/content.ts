@@ -189,20 +189,25 @@ export const volunteering = [
     org: "International Volunteer HQ — Peru",
     period: "2017 · 2 mos",
     blurb:
-      "Taught English abroad in Peru, from 2nd graders to working professionals.",
+      "Taught English abroad in Peru — mis chicos y chicas, from 2nd graders to working professionals.",
+    img: "peru.jpg",
   },
 ];
 
-/* — Travel (seeded from evidence; EDIT to add real destinations + photos) — */
+/* — Travel gallery. `confirmed: false` = caption is a placeholder awaiting
+   the real location from Sathya (see open question). — */
 export const travel = {
   intro:
     "A frequent traveler — happiest with a boarding pass and somewhere new to understand.",
-  places: [
-    { place: "Peru", note: "Taught English in the Andes" },        // evidenced
-    { place: "Germany", note: "Sprichst du Deutsch?" },             // evidenced (language)
-    { place: "Add a destination", note: "EDIT — your travels" },    // EDIT
-    { place: "Add a destination", note: "EDIT — your travels" },    // EDIT
-    { place: "Add a destination", note: "EDIT — your travels" },    // EDIT
+  gallery: [
+    { file: "banff.jpg", caption: "Canadian Rockies", confirmed: true },
+    { file: "seville.jpg", caption: "Seville, Spain", confirmed: true },
+    { file: "antelope.jpg", caption: "Antelope Canyon, Arizona", confirmed: true },
+    { file: "clouds.jpg", caption: "Above the clouds", confirmed: false },
+    { file: "dunes.jpg", caption: "Golden hour in the dunes", confirmed: false },
+    { file: "elephant.jpg", caption: "Made a friend", confirmed: false },
+    { file: "moongate.jpg", caption: "Through the moon gate", confirmed: false },
+    { file: "waterfall.jpg", caption: "Chasing waterfalls", confirmed: false },
   ],
 };
 
