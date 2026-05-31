@@ -1,0 +1,67 @@
+---
+import { products } from "../data/content";
+const markFor = (logo: string) => (logo === "workboard" ? "W" : "O");
+---
+
+<section class="section products" id="products">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="eyebrow" data-num="02">Products I've shaped</p>
+      <h2 class="section-title">Platforms thousands of teams build on.</h2>
+    </header>
+
+    <div class="prod-grid">
+      {products.map((p, i) => (
+        <a class="prod reveal" href={p.href} target="_blank" rel="noopener noreferrer" data-delay={(i % 4) + 1} data-cursor-hover>
+          <span class="prod-mark" aria-hidden="true">{markFor(p.logo)}</span>
+          <span class="prod-body">
+            <span class="prod-name">{p.name}</span>
+            <span class="prod-note">{p.note}</span>
+          </span>
+          <span class="prod-arrow" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .products { padding-block: clamp(3rem, 7vh, 5.5rem); }
+  .sec-head { margin-bottom: clamp(2rem, 5vh, 3.2rem); }
+  .prod-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.9rem, 2vw, 1.3rem);
+  }
+  .prod {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: clamp(1.1rem, 2.4vw, 1.6rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: linear-gradient(160deg, rgba(30,26,19,0.5), rgba(18,15,11,0.3));
+    transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), background 0.4s var(--ease);
+  }
+  .prod:hover { border-color: var(--accent); transform: translateY(-3px); background: linear-gradient(160deg, rgba(40,32,20,0.6), rgba(20,16,12,0.4)); }
+  .prod-mark {
+    display: grid; place-items: center;
+    width: 46px; height: 46px; flex: none;
+    border-radius: 11px;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+  .prod:hover .prod-mark { background: var(--ember); color: #1a1206; border-color: transparent; box-shadow: 0 0 16px rgba(233,161,75,0.4); }
+  .prod-body { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; flex: 1; }
+  .prod-name { font-size: var(--step-1); color: var(--text); font-weight: 500; }
+  .prod-note { font-size: var(--step--1); color: var(--muted); }
+  .prod-arrow { color: var(--text-dim); transition: transform 0.35s var(--ease), color 0.35s var(--ease); flex: none; }
+  .prod:hover .prod-arrow { transform: translate(3px, -3px); color: var(--accent); }
+
+  @media (max-width: 680px) { .prod-grid { grid-template-columns: 1fr; } }
+</style>

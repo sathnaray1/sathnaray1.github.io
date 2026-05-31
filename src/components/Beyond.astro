@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { givingBack, volunteering, travel, passions } from "../data/content";
+import Globe from "./Globe.astro";
 
 // Optimize all travel/volunteering images at build time
 const imgs = import.meta.glob<{ default: ImageMetadata }>(
@@ -14,7 +15,7 @@ const img = (file: string) => imgs[`../assets/travel/${file}`]?.default;
 <section class="section beyond" id="beyond">
   <div class="wrap">
     <header class="sec-head reveal">
-      <p class="eyebrow" data-num="05">Beyond the Work</p>
+      <p class="eyebrow" data-num="06">Beyond the Work</p>
       <h2 class="section-title">Curious, multi-hyphenate, always learning.</h2>
     </header>
 
@@ -51,6 +52,7 @@ const img = (file: string) => imgs[`../assets/travel/${file}`]?.default;
         </div>
       </div>
       <p class="block-intro reveal">{travel.intro}</p>
+      <Globe />
       <div class="gallery reveal">
         {travel.gallery.map((g) => img(g.file) && (
           <figure class="shot" data-cursor-hover>

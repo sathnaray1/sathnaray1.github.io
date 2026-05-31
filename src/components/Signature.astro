@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import bg from "../assets/travel/sunset.jpg";
+---
+
+<section class="signature" aria-label="What makes me unique">
+  <div class="sig-bg" aria-hidden="true">
+    <Image src={bg} alt="" widths={[1200, 1800, 2400]} sizes="100vw" loading="lazy" class="sig-img" />
+    <div class="sig-shade"></div>
+  </div>
+  <div class="wrap sig-inner">
+    <p class="sig-eyebrow">The short version</p>
+    <p class="sig-text reveal">
+      A rare combination — a leader who <em>ships AI outcomes</em>, scales platforms to
+      <em>trillions of events</em>, and still <em>builds the prototypes by hand</em>.
+    </p>
+  </div>
+</section>
+
+<style>
+  .signature {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(6rem, 18vh, 11rem);
+    display: flex;
+    align-items: center;
+    border-block: 1px solid var(--line);
+  }
+  .sig-bg { position: absolute; inset: 0; z-index: 0; }
+  .sig-img { width: 100%; height: 128%; object-fit: cover; object-position: center 45%; will-change: transform; }
+  .sig-shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(8,7,6,0.7), rgba(8,7,6,0.55) 50%, rgba(8,7,6,0.8)),
+      radial-gradient(70% 60% at 50% 50%, rgba(217,118,60,0.18), transparent 60%);
+  }
+  .sig-inner { position: relative; z-index: 2; text-align: center; }
+  .sig-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.4rem;
+  }
+  .sig-text {
+    font-family: var(--font-display);
+    font-weight: 350;
+    font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3.4rem);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+    margin-inline: auto;
+    text-shadow: 0 2px 40px rgba(0,0,0,0.5);
+  }
+  .sig-text em {
+    font-style: italic;
+    background: var(--ember);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+</style>
+
+<script>
+  const img = document.querySelector<HTMLElement>(".signature .sig-img");
+  const sec = document.querySelector<HTMLElement>(".signature");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (img && sec && !reduce) {
+    const onScroll = () => {
+      const r = sec.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > window.innerHeight) return;
+      const progress = (window.innerHeight - r.top) / (window.innerHeight + r.height);
+      img.style.transform = `translateY(${(progress - 0.5) * 14}%)`;
+    };
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>

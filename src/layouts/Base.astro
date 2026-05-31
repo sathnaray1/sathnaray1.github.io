@@ -159,6 +159,25 @@ const ogImage = new URL("/og.png", Astro.site).toString();
           el.addEventListener("mouseleave", () => cursor.classList.remove("is-hover"));
         });
       }
+
+      // ---- Magnetic buttons ----
+      if (
+        !reduce &&
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches
+      ) {
+        document.querySelectorAll<HTMLElement>("[data-magnetic]").forEach((el) => {
+          const strength = 0.35;
+          el.addEventListener("mousemove", (e) => {
+            const r = el.getBoundingClientRect();
+            const mx = e.clientX - (r.left + r.width / 2);
+            const my = e.clientY - (r.top + r.height / 2);
+            el.style.transform = `translate(${mx * strength}px, ${my * strength}px)`;
+          });
+          el.addEventListener("mouseleave", () => {
+            el.style.transform = "";
+          });
+        });
+      }
     </script>
   </body>
 </html>

@@ -1,0 +1,140 @@
+---
+import { visited } from "../data/countries";
+const withPhotos = visited.filter((c) => c.photo);
+---
+
+<div class="globe-block reveal">
+  <div class="globe-stage" id="globe-stage" data-cursor-hover>
+    <div id="globe-canvas" class="globe-canvas"></div>
+    <p class="globe-hint"><span class="g-dot"></span>Drag to spin · hover a pin</p>
+  </div>
+  <noscript><p class="globe-fallback-note">Enable JavaScript to explore the interactive globe.</p></noscript>
+  <ul class="globe-fallback" id="globe-fallback" hidden>
+    {visited.map((c) => <li>{c.country}</li>)}
+  </ul>
+</div>
+
+<style>
+  .globe-block { margin-bottom: clamp(1.6rem, 4vh, 2.6rem); }
+  .globe-stage {
+    position: relative;
+    width: 100%;
+    height: clamp(360px, 62vh, 600px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background:
+      radial-gradient(70% 70% at 50% 45%, rgba(233,161,75,0.10), transparent 60%),
+      linear-gradient(180deg, #0b0a09, #0f0d0b);
+  }
+  .globe-canvas { position: absolute; inset: 0; }
+  .globe-canvas :global(canvas) { display: block; }
+  .globe-hint {
+    position: absolute; left: 1rem; bottom: 0.9rem; z-index: 2;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono); font-size: var(--step--1);
+    color: var(--muted); pointer-events: none;
+  }
+  .g-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 10px rgba(233,161,75,0.7); }
+
+  .globe-fallback { list-style: none; padding: 1rem 0 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .globe-fallback li { font-family: var(--font-mono); font-size: var(--step--1); color: var(--text-dim); padding: 0.4rem 0.8rem; border: 1px solid var(--line); border-radius: 999px; }
+  .globe-fallback-note { color: var(--muted); font-family: var(--font-mono); font-size: var(--step--1); }
+</style>
+
+<!-- Tooltip styling is global (globe.gl injects the label outside this component) -->
+<style is:global>
+  .g-tip {
+    width: 196px;
+    background: rgba(16,14,11,0.92);
+    border: 1px solid rgba(244,237,226,0.16);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px -18px rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+  }
+  .g-tip img { display: block; width: 100%; height: 116px; object-fit: cover; }
+  .g-tip-body { padding: 0.7rem 0.85rem; }
+  .g-country { display: block; color: #F4EDE2; font-size: 0.95rem; font-weight: 500; }
+  .g-cap { display: block; margin-top: 0.2rem; color: #8B8273; font-family: "JetBrains Mono", monospace; font-size: 0.72rem; }
+  .g-tip.no-photo { width: auto; }
+</style>
+
+<script>
+  import { visited } from "../data/countries";
+
+  const stage = document.getElementById("globe-canvas");
+  const fallback = document.getElementById("globe-fallback");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const hasWebGL = (() => {
+    try {
+      const c = document.createElement("canvas");
+      return !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl")));
+    } catch { return false; }
+  })();
+
+  const showFallback = () => { if (fallback) fallback.hidden = false; const s = document.getElementById("globe-stage"); if (s) s.style.display = "none"; };
+
+  if (!stage || !hasWebGL) {
+    showFallback();
+  } else {
+    let inited = false;
+    const init = async () => {
+      if (inited) return; inited = true;
+      try {
+        const { default: Globe } = await import("globe.gl");
+        const withPhotos = visited.filter((c) => c.photo);
+
+        const world = (Globe as any)()(stage)
+          .backgroundColor("rgba(0,0,0,0)")
+          .globeImageUrl("//unpkg.com/three-globe/example/img/earth-dark.jpg")
+          .showAtmosphere(true)
+          .atmosphereColor("#E9A14B")
+          .atmosphereAltitude(0.16)
+          .pointsData(visited)
+          .pointLat("lat").pointLng("lng")
+          .pointColor(() => "#F6C77A")
+          .pointAltitude(0.012)
+          .pointRadius(0.34)
+          .pointsMerge(false)
+          .pointLabel((d: any) =>
+            d.photo
+              ? `<div class="g-tip"><img src="${d.photo}" alt=""/><div class="g-tip-body"><span class="g-country">${d.country}</span><span class="g-cap">${d.caption || ""}</span></div></div>`
+              : `<div class="g-tip no-photo"><div class="g-tip-body"><span class="g-country">${d.country}</span></div></div>`
+          )
+          .ringsData(withPhotos)
+          .ringColor(() => "#E9A14B")
+          .ringMaxRadius(2.6)
+          .ringPropagationSpeed(1.1)
+          .ringRepeatPeriod(reduce ? 0 : 1500);
+
+        const size = () => world.width(stage.clientWidth).height(stage.clientHeight);
+        size();
+        window.addEventListener("resize", size);
+
+        // warm-tint the globe surface
+        try { world.globeMaterial().color.set("#2a251d"); } catch {}
+
+        const controls = world.controls();
+        controls.enableZoom = false;
+        controls.autoRotate = !reduce;
+        controls.autoRotateSpeed = 0.5;
+        world.pointOfView({ lat: 20, lng: 10, altitude: 2.3 });
+
+        // pause auto-rotate while interacting / hovering a pin
+        stage.addEventListener("pointerdown", () => (controls.autoRotate = false));
+        world.onPointHover((p: any) => { controls.autoRotate = !reduce && !p; });
+      } catch (e) {
+        showFallback();
+      }
+    };
+
+    // Lazy-init when scrolled into view
+    const io = new IntersectionObserver((es) => {
+      if (es[0].isIntersecting) { init(); io.disconnect(); }
+    }, { rootMargin: "200px" });
+    io.observe(stage);
+  }
+</script>

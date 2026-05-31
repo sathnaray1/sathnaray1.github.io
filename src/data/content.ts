@@ -11,6 +11,22 @@ export const profile = {
   location: "Atlanta, GA",
   email: "sathnaray@gmail.com",
   linkedin: "https://www.linkedin.com/in/snarayanan2/",
+  github: "https://github.com/sathnaray1",
+  instagram: "https://www.instagram.com/sathnaray/",
+  resume: "/Resume_Sathya_Narayanan.pdf",
+};
+
+/* — Hero headline (kinetic, shared across hero variants). em = ember accent. — */
+export const hero = {
+  lines: [
+    [{ t: "Products used by " }, { t: "millions", em: true }, { t: "." }],
+    [{ t: "Built 0→1, scaled to " }, { t: "$150M+", em: true }, { t: "." }],
+    [{ t: "AI-native", em: true }, { t: " by design." }],
+  ],
+  subline:
+    "Senior product leader — nine years turning ambitious ideas into shipped, scaled, revenue-driving products. Now building the AI that builds them.",
+  signature:
+    "A rare combination: a leader who ships AI outcomes, scales platforms to trillions of events, and still builds the prototypes by hand.",
 };
 
 export const nav = [
@@ -21,20 +37,29 @@ export const nav = [
   { label: "Contact", href: "#contact" },
 ];
 
-/* — Impact stats (animated count-up) — */
+/* — Impact stats (animated count-up) — outcome-led — */
 export const stats = [
-  { value: 150, prefix: "$", suffix: "M+", label: "ARR scaled across portfolio" },
-  { value: 75, prefix: "", suffix: "+", label: "cross-functional team led" },
-  { value: 9, prefix: "", suffix: "+", label: "years building & scaling" },
+  { value: 150, prefix: "$", suffix: "M+", label: "ARR scaled across the portfolio" },
+  { value: 2.4, prefix: "", suffix: "M+", label: "users reached worldwide", decimals: 1 },
+  { value: 45, prefix: "+", suffix: "%", label: "more experiments, AI-driven" },
+  { value: 45, prefix: "$", suffix: "M", label: "ARR impact in year one (acquisition)" },
   { value: 3, prefix: "", suffix: "T+", label: "events processed daily" },
-  { value: 99.99, prefix: "", suffix: "%", label: "platform uptime", decimals: 2 },
-  { value: 45, prefix: "+", suffix: "%", label: "experiments run with AI" },
+  { value: 75, prefix: "", suffix: "+", label: "cross-functional team led" },
+];
+
+/* — Products shaped (called-out strip) — */
+export const products = [
+  { name: "Feature Experimentation", logo: "optimizely", href: "https://www.optimizely.com/products/feature-experimentation/", note: "Feature flags + experimentation at scale" },
+  { name: "Optimizely Analytics", logo: "optimizely", href: "https://www.optimizely.com/products/analytics/", note: "Product, marketing & warehouse-native analytics" },
+  { name: "Opal AI", logo: "optimizely", href: "https://www.optimizely.com/ai/", note: "Agentic AI across the marketing stack" },
+  { name: "Workboard", logo: "workboard", href: "https://www.workboard.com/", note: "Enterprise OKRs + Gen-AI Co-Author" },
 ];
 
 /* — Experience (headline-level; intrigue, not detail) — */
 export const experience = [
   {
     company: "Optimizely",
+    mark: "O",
     role: "Senior Director, Product",
     period: "2023 — Present",
     location: "Seattle, WA",
@@ -55,6 +80,7 @@ export const experience = [
   },
   {
     company: "Workboard",
+    mark: "W",
     role: "Senior Product Manager",
     period: "2019 — 2023",
     location: "Redwood City, CA",
@@ -71,6 +97,7 @@ export const experience = [
   },
   {
     company: "Ernst & Young",
+    mark: "EY",
     role: "Senior Technology Consultant",
     period: "2017 — 2019",
     location: "San Francisco, CA",
@@ -94,6 +121,13 @@ export const earlier =
 export const aiLeadership = {
   intro:
     "I don't just direct AI products — I build them. Hands-on with prototyping, evals, and agentic systems, I run my own product org on AI infrastructure I designed myself.",
+  outcomes: [
+    { metric: "days → seconds", label: "time-to-insight, conversational analytics" },
+    { metric: "+45%", label: "more experiments run with AI" },
+    { metric: "19+", label: "Opal AI agents designed & shipped" },
+    { metric: "3T+", label: "events/day powering AI decisions" },
+    { metric: "MCP-native", label: "agentic experimentation & analytics" },
+  ],
   cards: [
     {
       kicker: "Autonomous systems",
@@ -129,18 +163,21 @@ export const writing = [
     kicker: "Perspective",
     desc: "Where digital growth and experience optimization are heading next.",
     href: "https://www.optimizely.com/insights/blog/the-future-of-digital-experience-optimization/",
+    img: "future-deo.png",
   },
   {
     title: "AI in product development: how to get started",
     kicker: "Playbook",
     desc: "A practical on-ramp for teams putting AI to work in how they build product.",
     href: "https://www.optimizely.com/insights/blog/how-to-start-using-ai-in-product-development/",
+    img: "ai-product-dev.png",
   },
   {
     title: "Warehouse-native analytics & the future of experimentation",
     kicker: "Webinar",
     desc: "Why the warehouse is becoming the center of gravity for experimentation.",
     href: "https://www.optimizely.com/insights/webinar-warehouse-native-analytics-video/",
+    img: "warehouse-native.png",
   },
 ];
 

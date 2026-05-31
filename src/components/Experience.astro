@@ -15,7 +15,10 @@ import { experience, earlier } from "../data/content";
           <div class="job-rail" aria-hidden="true"><span class="node"></span></div>
           <div class="job-body">
             <div class="job-top">
-              <h3 class="job-company">{job.company}</h3>
+              <div class="job-id">
+                <span class="job-logo" aria-hidden="true">{job.mark}</span>
+                <h3 class="job-company">{job.company}</h3>
+              </div>
               <span class="job-period">{job.period}</span>
             </div>
             <p class="job-role">{job.role} <span class="job-loc">· {job.location}</span></p>
@@ -99,6 +102,27 @@ import { experience, earlier } from "../data/content";
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+  .job-id { display: inline-flex; align-items: center; gap: 0.85rem; }
+  .job-logo {
+    display: grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+    flex: none;
+    transition: border-color 0.4s var(--ease), color 0.4s var(--ease), background 0.4s var(--ease);
+  }
+  .is-accent .job-logo,
+  .job:hover .job-logo {
+    background: var(--ember);
+    border-color: transparent;
+    color: #1a1206;
+    box-shadow: 0 0 18px rgba(233,161,75,0.35);
   }
   .job-company {
     font-size: var(--step-2);

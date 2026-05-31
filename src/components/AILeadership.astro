@@ -6,10 +6,19 @@ import { aiLeadership } from "../data/content";
   <div class="ai-glow" aria-hidden="true"></div>
   <div class="wrap">
     <header class="sec-head reveal">
-      <p class="eyebrow" data-num="02">AI Leadership</p>
+      <p class="eyebrow" data-num="03">AI Leadership</p>
       <h2 class="section-title">A product leader who <em>builds</em> the AI, not just briefs it.</h2>
       <p class="lead ai-intro">{aiLeadership.intro}</p>
     </header>
+
+    <ul class="ai-outcomes reveal" aria-label="AI outcomes">
+      {aiLeadership.outcomes.map((o) => (
+        <li class="outcome">
+          <span class="outcome-metric accent-text">{o.metric}</span>
+          <span class="outcome-label">{o.label}</span>
+        </li>
+      ))}
+    </ul>
 
     <div class="ai-grid">
       {aiLeadership.cards.map((c, i) => (
@@ -49,12 +58,33 @@ import { aiLeadership } from "../data/content";
     color: transparent;
   }
 
+  .ai-outcomes {
+    list-style: none;
+    padding: clamp(1.4rem, 3vw, 2rem) 0;
+    margin-top: clamp(2rem, 5vh, 3rem);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(1rem, 2.5vw, 2rem);
+    border-block: 1px solid var(--line);
+  }
+  .outcome { display: flex; flex-direction: column; gap: 0.45rem; }
+  .outcome-metric {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1rem + 1.6vw, 2.2rem);
+    font-weight: 360;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .outcome-label { color: var(--muted); font-size: var(--step--1); line-height: 1.4; }
+
   .ai-grid {
     margin-top: clamp(2.5rem, 6vh, 4rem);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: clamp(1rem, 2vw, 1.4rem);
   }
+  @media (max-width: 900px) { .ai-outcomes { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 460px) { .ai-outcomes { grid-template-columns: 1fr; } }
   .ai-card {
     position: relative;
     padding: clamp(1.6rem, 3vw, 2.4rem);
